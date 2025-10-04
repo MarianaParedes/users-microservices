@@ -33,10 +33,21 @@ $ pnpm run start:dev
 ```
 <!-- 
 
-## Deployment
+## Tecnologías usadas
 
-[deployment documentation](https://docs.nestjs.com/) for more information.
+ Nest   [documentation](https://docs.nestjs.com/). 
+ Prisma
+ Mysql
 
+
+###Docker
+solo mysql en docker
+docker run -p3306:3306 --name autosi -e MYSQL_ROOT_PASSWORD=123 -e MYSQL_DATABASE=datab mysql:8.0.43-debian
+
+### ORM Prisma
+```bash
+ npx prisma migrate dev --name init
+```
 
 ```bash
 $ pnpm install -g @nestjs/mau
