@@ -24,3 +24,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt //le indica al gestor de BD que cuando se actualice ponga esa fecha
 }
+
+model Invoice {
+  id     Int      @id @default(autoincrement())
+  client String
+  date   DateTime @default(now())
+  total  Float
+}

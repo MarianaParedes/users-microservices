@@ -29,8 +29,11 @@ git branch -M master
 git push -u origin master
 
 ###Docker
+
+Imagen docker pull mysql:8.0.43-debian
+
 solo mysql en docker
-docker run -p3306:3306 --name autosi -e MYSQL_ROOT_PASSWORD=123 -e MYSQL_DATABASE=datab mysql:8.0.43-debian
+docker run -p3306:3306 --name autoci -e MYSQL_ROOT_PASSWORD=123 -e MYSQL_DATABASE=datab mysql:8.0.43-debian
 
 ### ORM Prisma
 

@@ -3,59 +3,53 @@
 
 Proyecto basado en el documento de prueba tecnica para Autocity
 
+### Tecnologías usadas
+
+ Nest   [documentation](https://docs.nestjs.com/). 
+ Prisma
+ Mysql
+ Docker
 
 ### Configuración base del Proyecto | Project setup
 
 Dirigirse a  ruta de la carpeta, en donde se tiene alojado el proyecto. Ejemplo:
 
 ```bash
-$ cd C:\Users\Mariana\NEST\autocity
+    $ cd C:\Users\Mariana\NEST\autocity
 ```
 
 Ejecutamos el siguiente comando para instalar dependencias
 
 ```bash
-$ pnpm install
+    $ pnpm install
 ```
 
 ## Variables de entorno | 
 Crear una copia del archivo .env.template, renombrarlo a .env y configurar las variables de entorno
 
 ```bash
-PORT=3001
+    PORT=3001
 .....
 ```
 
+### Base de Datos Dockerizada
+Ejecutar el siguiente comando para crear y ejecutar la base de datos en base a la imagen mysql:8.0.43-debian
+
+```bash
+    docker run -p3306:3306 --name autoci -e MYSQL_ROOT_PASSWORD=123 -e MYSQL_DATABASE=datab mysql:8.0.43-debian
+```
 ## Ejecutamos el proyecto | Compile and run the project
 
 ```bash
-$ pnpm run start:dev
+    $ pnpm run start:dev
 ```
-<!-- 
-
-## Tecnologías usadas
-
- Nest   [documentation](https://docs.nestjs.com/). 
- Prisma
- Mysql
 
 
-###Docker
-solo mysql en docker
-docker run -p3306:3306 --name autosi -e MYSQL_ROOT_PASSWORD=123 -e MYSQL_DATABASE=datab mysql:8.0.43-debian
+### ORM Prisma - Migracion de Base de datos
 
-### ORM Prisma
 ```bash
  npx prisma migrate dev --name init
 ```
-
-```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
-```
- -->
-
-
 
 
 <!-- Lo que hice io para preparar el proyecto en nest
