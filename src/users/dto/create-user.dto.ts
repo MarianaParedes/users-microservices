@@ -23,4 +23,10 @@ export class CreateUserDto {
 
     @IsString()
     public password: string;
+
+
+    //ejemplo si en este modulo tendría precio
+    // @Min(0)
+    // @Type(() => Number )
+    // public price:number;
 }

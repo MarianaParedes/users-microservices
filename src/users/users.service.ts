@@ -1,4 +1,4 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaClient } from '@prisma/client';
@@ -14,18 +14,33 @@ export class UsersService extends PrismaClient implements OnModuleInit {
   }
 
   create(createUserDto: CreateUserDto) {
-
     return this.user.create({
       data: createUserDto
     });
   }
 
   findAll() {
-    return `This action returns all users`;
+    //TODO codigo incompleto de paginacion v 15
+    //const { page, limit } = paginationDto;
+    //const totalPage = await this.product.count();
+    //lastPage = Math.ceil( totalPages / limit);
+
+    return this.user.findMany({
+      // skip: 1*10,  (page - 1 ) * limit;
+      // take: limit
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    const user = await this.user.findUnique({
+      where: { id }
+    });
+
+    if( !user ){
+      throw new NotFoundException(`Product with id #${ id } not found`);
+    }
+
+    return user;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
