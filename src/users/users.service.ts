@@ -43,11 +43,23 @@ export class UsersService extends PrismaClient implements OnModuleInit {
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+  //TODO validar que si todos los campos vienen en null no llame al sig código
+
+    await this.findOne(id);
+
+    return this.user.update({
+      where: { id },
+      data: updateUserDto
+    })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+
+      await this.findOne(id)
+      
+      return this.user.delete({
+        where: { id }
+      });
   }
 }
