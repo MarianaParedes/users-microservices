@@ -33,7 +33,7 @@ export class UsersService extends PrismaClient implements OnModuleInit {
 
   async findOne(id: number) {
     const user = await this.user.findUnique({
-      where: { id }
+      where: { id, available: true }
     });
 
     if( !user ){
@@ -45,12 +45,13 @@ export class UsersService extends PrismaClient implements OnModuleInit {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
   //TODO validar que si todos los campos vienen en null no llame al sig código
+    const { id: __,  ...data } = updateUserDto
 
     await this.findOne(id);
 
     return this.user.update({
       where: { id },
-      data: updateUserDto
+      data: data
     })
   }
 
@@ -58,8 +59,16 @@ export class UsersService extends PrismaClient implements OnModuleInit {
 
       await this.findOne(id)
       
-      return this.user.delete({
-        where: { id }
-      });
+      // return this.user.delete({
+      //   where: { id }
+      // });
+
+      const user = await this.user.update({
+        where: { id },
+        data: {
+          available: false
+        }
+      }); 
+      return user
   }
 }

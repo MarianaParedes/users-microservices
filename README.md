@@ -38,6 +38,14 @@ Ejecutar el siguiente comando para crear y ejecutar la base de datos en base a l
 ```bash
     docker run -p3306:3306 --name autoci -e MYSQL_ROOT_PASSWORD=123 -e MYSQL_DATABASE=datab mysql:8.0.43-debian
 ```
+
+### ORM Prisma - Migracion de Base de datos
+
+```bash
+ npx prisma migrate dev --name init
+```
+
+
 ## Ejecutamos el proyecto | Compile and run the project
 
 ```bash
@@ -45,11 +53,7 @@ Ejecutar el siguiente comando para crear y ejecutar la base de datos en base a l
 ```
 
 
-### ORM Prisma - Migracion de Base de datos
 
-```bash
- npx prisma migrate dev --name init
-```
 
 
 <!-- Lo que hice io para preparar el proyecto en nest
