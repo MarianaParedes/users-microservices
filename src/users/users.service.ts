@@ -1,7 +1,10 @@
-import { Injectable, Logger, NotFoundException, OnModuleInit } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaClient } from '@prisma/client';
+import { RpcException } from '@nestjs/microservices';
+import { PaginationDto } from 'src/common/dto';
+import { last } from 'rxjs';
 
 @Injectable()
 export class UsersService extends PrismaClient implements OnModuleInit {
@@ -19,27 +22,35 @@ export class UsersService extends PrismaClient implements OnModuleInit {
     });
   }
 
-  findAll() {
-    //TODO codigo incompleto de paginacion v 15
-    //const { page, limit } = paginationDto;
-    //const totalPage = await this.product.count();
-    //lastPage = Math.ceil( totalPages / limit);
+  async findAll(paginationDto: PaginationDto) {
+    const { page, limit } = paginationDto;
+    const totalPages = await this.user.count();
+    const lastPage = Math.ceil( totalPages / limit);
 
-    return this.user.findMany({
-      // skip: 1*10,  (page - 1 ) * limit;
-      // take: limit
-    });
+    return {
+      data: await this.user.findMany({
+        skip: (page - 1 ) * limit,
+        take: limit
+      }),
+      meta: {
+        total: totalPages,
+        page: page, 
+        lastPage  : lastPage
+      }
+    }
   }
 
   async findOne(id: number) {
-    const user = await this.user.findUnique({
+    const user = await this.user.findFirst({
       where: { id, available: true }
     });
 
     if( !user ){
-      throw new NotFoundException(`Product with id #${ id } not found`);
+      throw new RpcException({
+        message: `User with id #${ id } not found!`,
+        status: HttpStatus.BAD_REQUEST
+    });
     }
-
     return user;
   }
 
@@ -56,13 +67,8 @@ export class UsersService extends PrismaClient implements OnModuleInit {
   }
 
   async remove(id: number) {
-
-      await this.findOne(id)
+      await this.findOne(id);
       
-      // return this.user.delete({
-      //   where: { id }
-      // });
-
       const user = await this.user.update({
         where: { id },
         data: {
