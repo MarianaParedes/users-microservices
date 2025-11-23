@@ -12,13 +12,21 @@ export class CreateUserDto {
     @IsString()
     public lastname: string;
 
-    @IsNumber({
-        maxDecimalPlaces: 8,
-    })
-    @Type(()=> Number )
-    public dni: number;
+    // @IsNumber({
+    //     maxDecimalPlaces: 8,
+    // })
+    @IsString()
+    public dni: string;
 
     @IsString()
     public email: string;
 
+    @IsString()
+    public password: string;
+
+
+    //ejemplo si en este modulo tendría precio
+    // @Min(0)
+    // @Type(() => Number )
+    // public price:number;
 }
